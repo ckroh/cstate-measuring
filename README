@@ -29,5 +29,3 @@ Steps to run measurement
 10) 	run measurement with parameters (variables defined via environment)
 	./runcontrol $RAND_NUM [c-state] $CACHE_EMPTY
 	
-11)	
-
