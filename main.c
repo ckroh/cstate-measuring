@@ -60,9 +60,9 @@ int main(int argc, char *argv[] ){
 		printf("usage: %s rand_num cstate cache_size\n", argv[0]);
 		return 1;
 	}
-	char *cstateson[] = { "sudo", "sh", "/home/s1428123/Beleg/Programm/limit_cstate.sh", "-on", argv[2], NULL };
+	char *cstateson[] = { "sudo", "sh", "/home/s1428123/Beleg/Programm/cstate-measuring/limit_cstate.sh", "-on", argv[2], NULL };
 	
-	char *cstatesoff[] = { "sudo", "sh", "/home/s1428123/Beleg/Programm/limit_cstate.sh", "-off", NULL };
+	char *cstatesoff[] = { "sudo", "sh", "/home/s1428123/Beleg/Programm/cstate-measuring/limit_cstate.sh", "-off", NULL };
 	uint64_t val;
 	uint64_t *dc1, *dc2;
 	uint64_t cache_size = 0;
@@ -84,6 +84,9 @@ int main(int argc, char *argv[] ){
 			//core 0: write Cache, work and sleep -> core c-states
 			case 0:
 				dc1 = malloc(sizeof(uint64_t) * cache_size);
+				if(dc1==NULL){
+					printf("Error: malloc failed\n"); return -1;
+				}
 				for(int i = 0; i< NUM_MEASUREMENTS; i++){
 					writeCache(val, dc1, cache_size);
 					usleep(600000);
