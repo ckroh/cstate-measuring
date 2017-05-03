@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <omp.h>
+#include <xmmintrin.h>
 
 #define NUM_MEASUREMENTS 64
 
@@ -49,9 +50,17 @@ void work(uint64_t val){
 }
 
 void workHard(uint64_t val){
-	unsigned long long int res = 1;
+/*	unsigned long long int res = 1;*/
+/*	for(int i = 0; i<val*128; i++){*/
+/*		res = pow(val,i);*/
+/*	}*/
+/*	__vector unsigned int va1 = (__vector unsigned int) {val+4, val+3, val+2, val+1}; // Little endian, stored in 'reverse'*/
+/*	__vector unsigned int va2 = (__vector unsigned int) {val+7, val+8, val+9, 0};*/
+	__m128 vector1 = _mm_setr_ps(val+4, val+3, val+2, val+1);
+	__m128 vector2 = _mm_setr_ps(val+7, val+8, val+9, 0);
 	for(int i = 0; i<val*128; i++){
-		res = pow(val,i);
+/*		__vector unsigned int va = vec_add(va1, va22);*/
+		vector1 = _mm_add_ps(vector1, vector2); // result = vector1 + vector 2
 	}
 }
 
@@ -85,13 +94,13 @@ int main(int argc, char *argv[] ){
 			case 0:
 				dc1 = malloc(sizeof(uint64_t) * cache_size);
 				if(dc1==NULL){
-					printf("Error: malloc failed\n"); return -1;
+					printf("Error: malloc failed\n"); break;
 				}
 				for(int i = 0; i< NUM_MEASUREMENTS; i++){
 					writeCache(val, dc1, cache_size);
 					usleep(600000);
 					work(val);
-					usleep(20);
+/*					usleep(20);*/
 					workHard(val);
 				}
 				free(dc1);
