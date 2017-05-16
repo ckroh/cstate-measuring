@@ -1,5 +1,6 @@
 #!/bin/sh
 export GOMP_CPU_AFFINITY=0,1,12
+export GOMP_STACKSIZE=32M
 export OMP_NUM_THREADS=3
 
 export SCOREP_TIMER='tsc'

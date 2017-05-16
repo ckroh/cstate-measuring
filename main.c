@@ -10,7 +10,7 @@
 #include <omp.h>
 #include <xmmintrin.h>
 
-#define NUM_MEASUREMENTS 64
+#define NUM_MEASUREMENTS 76
 
 void execute(char **argv)
 {
@@ -59,8 +59,7 @@ void workHard(uint64_t val){
 	__m128 vector1 = _mm_setr_ps(val+4, val+3, val+2, val+1);
 	__m128 vector2 = _mm_setr_ps(val+7, val+8, val+9, 0);
 	for(int i = 0; i<val*128; i++){
-/*		__vector unsigned int va = vec_add(va1, va22);*/
-		vector1 = _mm_add_ps(vector1, vector2); // result = vector1 + vector 2
+		vector1 = _mm_mul_ps(vector1, vector2); // result = vector1 + vector 2
 	}
 }
 
@@ -100,7 +99,7 @@ int main(int argc, char *argv[] ){
 					writeCache(val, dc1, cache_size);
 					usleep(600000);
 					work(val);
-/*					usleep(20);*/
+					usleep(200);
 					workHard(val);
 				}
 				free(dc1);
