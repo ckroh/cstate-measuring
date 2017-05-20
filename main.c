@@ -50,16 +50,10 @@ void work(uint64_t val){
 }
 
 void workHard(uint64_t val){
-/*	unsigned long long int res = 1;*/
-/*	for(int i = 0; i<val*128; i++){*/
-/*		res = pow(val,i);*/
-/*	}*/
-/*	__vector unsigned int va1 = (__vector unsigned int) {val+4, val+3, val+2, val+1}; // Little endian, stored in 'reverse'*/
-/*	__vector unsigned int va2 = (__vector unsigned int) {val+7, val+8, val+9, 0};*/
 	__m128 vector1 = _mm_setr_ps(val+4, val+3, val+2, val+1);
 	__m128 vector2 = _mm_setr_ps(val+7, val+8, val+9, 0);
 	for(int i = 0; i<val*128; i++){
-		vector1 = _mm_mul_ps(vector1, vector2); // result = vector1 + vector 2
+		vector1 = _mm_mul_ps(vector1, vector2); 
 	}
 }
 
@@ -82,8 +76,9 @@ int main(int argc, char *argv[] ){
 		cache_size = strtoul(argv[3],NULL,10);
 	}
 	
+	usleep(500);
 	execute(cstateson);
-	
+		
 	printf("writing cache with %lu bytes\n", (8*cache_size));
 
 	#pragma omp parallel 
@@ -107,14 +102,13 @@ int main(int argc, char *argv[] ){
 	
 			//core 1: busy half the time, idle other half -> package c-states
 			case 1:
-				work(val*6*NUM_MEASUREMENTS);
-				usleep(400000*NUM_MEASUREMENTS-1000);
+				work(val*5*NUM_MEASUREMENTS);
+				usleep(400000*NUM_MEASUREMENTS-100000);
 				break;
 		
 			//thread for 2nd socket: ensures work on 2nd socket
 			case 2:
-				work(val*8*NUM_MEASUREMENTS);
-				//usleep(400000*NUM_MEASUREMENTS-5000);
+				work(val*7*NUM_MEASUREMENTS);
 				break;
 		
 			default:
@@ -123,10 +117,10 @@ int main(int argc, char *argv[] ){
 		
 		}
 	}
-		
-		
+			
 	execute(cstatesoff);
 	
+	usleep(500);
  	return 0;
 }
  
