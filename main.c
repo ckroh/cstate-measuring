@@ -10,7 +10,7 @@
 #include <omp.h>
 #include <xmmintrin.h>
 
-#define NUM_MEASUREMENTS 76
+#define NUM_MEASUREMENTS 64
 
 void execute(char **argv)
 {
@@ -44,7 +44,7 @@ void writeCache(uint64_t val, uint64_t *dc, uint64_t cache_size){
 
 void work(uint64_t val){
 	unsigned long long int res = 1;
-	for(int i = 0; i<val*128; i++){
+	for(int i = 0; i<val*64; i++){
 		res += res * pow(val,i);
 	}
 }
@@ -99,21 +99,21 @@ int main(int argc, char *argv[] ){
 					writeCache(val, dc1, cache_size);
 					usleep(600000);
 					work(val);
-					usleep(200);
 					workHard(val);
+					work(val);
 				}
 				free(dc1);
 				break;
 	
 			//core 1: busy half the time, idle other half -> package c-states
 			case 1:
-				work(val*3*NUM_MEASUREMENTS);
+				work(val*6*NUM_MEASUREMENTS);
 				usleep(400000*NUM_MEASUREMENTS-1000);
 				break;
 		
 			//thread for 2nd socket: ensures work on 2nd socket
 			case 2:
-				work(val*4*NUM_MEASUREMENTS);
+				work(val*8*NUM_MEASUREMENTS);
 				//usleep(400000*NUM_MEASUREMENTS-5000);
 				break;
 		
