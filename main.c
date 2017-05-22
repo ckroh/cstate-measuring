@@ -81,7 +81,7 @@ int main(int argc, char *argv[] ){
 		
 	printf("writing cache with %lu bytes\n", (8*cache_size));
 
-	#pragma omp parallel 
+	#pragma omp parallel private(dc1)
 	{
 		switch(omp_get_thread_num()){
 			//core 0: write Cache, work and sleep -> core c-states
@@ -120,7 +120,6 @@ int main(int argc, char *argv[] ){
 			
 	execute(cstatesoff);
 	
-	usleep(500);
  	return 0;
 }
  
