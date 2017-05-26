@@ -3,7 +3,7 @@ Steps to run measurement
 1) 	make sure the correct kernel was booted (uname -a should suppliy something like *-cpuidle)
 
 2)	make the measure flags world-writable
-	sudo chmod 777 /sys/devices/system/cpu/cpu*/cpuidle/measure/measure
+	sudo chmod 666 /sys/devices/system/cpu/cpu*/cpuidle/measure/measure
 
 3)	set CPU speed
 	cpu_setspeed.sh 2600
