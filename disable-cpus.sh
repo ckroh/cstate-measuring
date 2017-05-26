@@ -1,16 +1,11 @@
 #1/bin/sh
-
-
-
 cd /sys/devices/system/cpu || exit
-
 case "$1" in
     "-on")
      	/bin/echo -n 1 | sudo tee cpu*/online
         ;;
     "-off")
-     	/bin/echo -n 0 | sudo tee "cpu"{2..11}"/online"
-     	
+     	/bin/echo -n 0 | sudo tee "cpu"{4..11}"/online"
         ;;
     *)
         echo "Usage:"
