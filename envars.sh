@@ -1,5 +1,5 @@
 #set cpu affinity pinning threads to specific cpus
-export GOMP_CPU_AFFINITY=0,1,12,2,3
+export GOMP_CPU_AFFINITY=0,1,12
 export GOMP_STACKSIZE=32M
 #specifiy number of program threads to be launched
 export OMP_NUM_THREADS=3

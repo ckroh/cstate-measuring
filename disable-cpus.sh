@@ -5,7 +5,7 @@ case "$1" in
      	/bin/echo -n 1 | sudo tee cpu*/online
         ;;
     "-off")
-     	/bin/echo -n 0 | sudo tee "cpu"{4..11}"/online"
+     	/bin/echo -n 0 | sudo tee "cpu"{2..11}"/online"
         ;;
     *)
         echo "Usage:"

@@ -75,6 +75,7 @@ int main(int argc, char *argv[] ){
 	char *cstateson[] = { "sudo", "sh", "/home/s1428123/Beleg/Programm/cstate-measuring/limit_cstate.sh", "-on", argv[2], NULL };
 	
 	char *cstatesoff[] = { "sudo", "sh", "/home/s1428123/Beleg/Programm/cstate-measuring/limit_cstate.sh", "-off", NULL };
+	
 	uint64_t val;
 	uint64_t *dc1, *dc2;
 	uint64_t cache_size = 0;
@@ -128,7 +129,7 @@ int main(int argc, char *argv[] ){
 				break;
 		
 			default:
-				usleep(60000000);
+				usleep(6000000);
 				break;
 		
 		}
